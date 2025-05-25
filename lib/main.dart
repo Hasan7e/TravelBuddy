@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:travelbuddy/pages/chatbot_page.dart';
 
 void main() {
   runApp(TravelBuddyApp());
@@ -12,6 +13,10 @@ class TravelBuddyApp extends StatelessWidget {
       title: 'TravelBuddy',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: HomeScreen(),
+      routes: {
+        '/chatbot':
+            (context) => const ChatBotPage(), //routes to the AI chatbot Page
+      },
     );
   }
 }
@@ -47,7 +52,7 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildSearchBar(),
+            _buildSearchBar(context),
             _buildHorizontalOptions(),
             const Padding(
               padding: EdgeInsets.all(16.0),
@@ -66,7 +71,7 @@ class HomeScreen extends StatelessWidget {
 }
 
 // searchbar with AI chatbot icon beside it
-Widget _buildSearchBar() {
+Widget _buildSearchBar(BuildContext context) {
   return Padding(
     padding: const EdgeInsets.all(16.0),
     child: Column(
@@ -82,8 +87,12 @@ Widget _buildSearchBar() {
             ),
             GestureDetector(
               onTap: () {
-                // You can trigger chatbot functionality or navigation here
+                // we can trigger chatbot functionality or navigation here
                 print("AI Chatbot tapped");
+                Navigator.pushNamed(
+                  context,
+                  '/chatbot',
+                ); // Navigate to Chatbot page
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(
