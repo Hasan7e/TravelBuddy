@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:travelbuddy/pages/chatbot_page.dart';
+import 'package:travelbuddy/pages/eiffel_tower.dart';
 
 void main() {
   runApp(TravelBuddyApp());
 }
 
 class TravelBuddyApp extends StatelessWidget {
+  const TravelBuddyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -16,6 +19,7 @@ class TravelBuddyApp extends StatelessWidget {
       routes: {
         '/chatbot':
             (context) => const ChatBotPage(), //routes to the AI chatbot Page
+        '/eiffel': (context) => const EiffelTowerPage(), //route to Eiffel Tower
       },
     );
   }
@@ -61,7 +65,7 @@ class HomeScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
-            _buildFeaturedPlaces(),
+            _buildFeaturedPlaces(context),
             //_buildAIChat(),
           ],
         ),
@@ -163,7 +167,7 @@ Widget _buildHorizontalOptions() {
   );
 }
 
-Widget _buildFeaturedPlaces() {
+Widget _buildFeaturedPlaces(BuildContext context) {
   final places = [
     {'name': 'Eiffel Tower', 'image': 'assets/images/eiffel.png'},
     {'name': 'Barcelona', 'image': 'assets/images/barcelona.png'},
@@ -184,41 +188,49 @@ Widget _buildFeaturedPlaces() {
       ),
       itemCount: places.length,
       itemBuilder: (ctx, index) {
-        return Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.2),
-                blurRadius: 5,
-                offset: const Offset(0, 3),
-              ),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(12),
-                  ),
-                  child: Image.asset(
-                    places[index]['image']!,
-                    fit: BoxFit.cover,
-                    width: double.infinity,
+        return GestureDetector(
+          onTap: () {
+            String placeName = places[index]['name']!;
+            if (placeName == 'Eiffel Tower') {
+              Navigator.pushNamed(context, '/eiffel');
+            }
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.2),
+                  blurRadius: 5,
+                  offset: const Offset(0, 3),
+                ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(12),
+                    ),
+                    child: Image.asset(
+                      places[index]['image']!,
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  places[index]['name']!,
-                  style: const TextStyle(fontWeight: FontWeight.w600),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    places[index]['name']!,
+                    style: const TextStyle(fontWeight: FontWeight.w600),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },
