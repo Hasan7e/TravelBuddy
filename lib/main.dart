@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:travelbuddy/pages/barcelona_page.dart';
 import 'package:travelbuddy/pages/chatbot_page.dart';
 import 'package:travelbuddy/pages/eiffel_tower.dart';
 
@@ -20,6 +21,9 @@ class TravelBuddyApp extends StatelessWidget {
         '/chatbot':
             (context) => const ChatBotPage(), //routes to the AI chatbot Page
         '/eiffel': (context) => const EiffelTowerPage(), //route to Eiffel Tower
+
+        '/barcelona':
+            (context) => const BarcelonaPage(), //route to Barcelona Page
       },
     );
   }
@@ -193,6 +197,9 @@ Widget _buildFeaturedPlaces(BuildContext context) {
             String placeName = places[index]['name']!;
             if (placeName == 'Eiffel Tower') {
               Navigator.pushNamed(context, '/eiffel');
+            } else if (placeName == 'Barcelona') {
+              // code for Barcelona page
+              Navigator.pushNamed(context, '/barcelona');
             }
           },
           child: Container(
