@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:travelbuddy/pages/barcelona_page.dart';
-import 'package:travelbuddy/pages/chatbot_page.dart';
+import 'package:travelbuddy/pages/barcelona.dart';
+import 'package:travelbuddy/pages/chatbot.dart';
 import 'package:travelbuddy/pages/eiffel_tower.dart';
+import 'package:travelbuddy/pages/great_wall.dart';
+import 'package:travelbuddy/pages/rome.dart';
 
 void main() {
   runApp(TravelBuddyApp());
@@ -24,6 +26,10 @@ class TravelBuddyApp extends StatelessWidget {
 
         '/barcelona':
             (context) => const BarcelonaPage(), //route to Barcelona Page
+
+        '/rome': (context) => const RomePage(), // route to rome page
+
+        '/wall': (context) => const GreatWallPage(), // route to wall page
       },
     );
   }
@@ -200,6 +206,12 @@ Widget _buildFeaturedPlaces(BuildContext context) {
             } else if (placeName == 'Barcelona') {
               // code for Barcelona page
               Navigator.pushNamed(context, '/barcelona');
+            } else if (placeName == 'Rome') {
+              //go to rome page
+              Navigator.pushNamed(context, '/rome');
+            } else if (placeName == 'Great Wall') {
+              //go to great wall page
+              Navigator.pushNamed(context, '/wall');
             }
           },
           child: Container(
