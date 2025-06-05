@@ -4,9 +4,11 @@ import 'package:travelbuddy/pages/chatbot.dart';
 import 'package:travelbuddy/pages/eiffel_tower.dart';
 import 'package:travelbuddy/pages/great_wall.dart';
 import 'package:travelbuddy/pages/rome.dart';
-//import 'package:flutter_dotenv/flutter_dotenv.dart'; //inport for apikey
+import 'package:flutter_dotenv/flutter_dotenv.dart'; //import for apikey
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // important!
+  await dotenv.load(fileName: ".env"); // loading environment variables
   runApp(TravelBuddyApp());
 }
 

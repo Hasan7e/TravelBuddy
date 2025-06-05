@@ -1,18 +1,13 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
-//import 'package:flutter_dotenv/flutter_dotenv.dart'; //importing .env
+import 'package:flutter_dotenv/flutter_dotenv.dart'; // Importing .env plugin
 
 class GoogleAIService {
-  //static final apiKey = dotenv.env['API_KEY']; // From Google AI Studio
-  //String get apiKey => dotenv.env['API_KEY'] ?? '';
-  //String get apiUrl =>
-
-  static const String apiKey = '';
-  static const String apiUrl =
-      'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=$apiKey';
-
   static Future<String> getResponse(String prompt) async {
+    final apiKey = dotenv.env['API_KEY']; // <- Now loaded at runtime
+    final apiUrl =
+        'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=$apiKey';
+
     final headers = {'Content-Type': 'application/json'};
 
     final body = jsonEncode({

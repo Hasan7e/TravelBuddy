@@ -23,11 +23,6 @@ class _ChatBotPageState extends State<ChatBotPage> {
       _controller.clear();
     });
 
-    // do this when using non static method call for the api
-    //final service =
-    //GoogleAIService(); // creating ans instant of the ai method/page
-    //final response = await service.getResponse(input);
-
     final response = await GoogleAIService.getResponse(input);
 
     setState(() {
@@ -57,32 +52,30 @@ class _ChatBotPageState extends State<ChatBotPage> {
   }
 
   Widget _buildChatView() {
-    return Expanded(
-      child: ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemCount: messages.length,
-        itemBuilder: (context, index) {
-          final message = messages[index];
-          return Align(
-            alignment:
-                message.startsWith("You:")
-                    ? Alignment.centerRight
-                    : Alignment.centerLeft,
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              margin: const EdgeInsets.symmetric(vertical: 4),
-              decoration: BoxDecoration(
-                color:
-                    message.startsWith("You:")
-                        ? Colors.blue[100]
-                        : Colors.grey[200],
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Text(message),
+    return ListView.builder(
+      padding: const EdgeInsets.all(16),
+      itemCount: messages.length,
+      itemBuilder: (context, index) {
+        final message = messages[index];
+        return Align(
+          alignment:
+              message.startsWith("You:")
+                  ? Alignment.centerRight
+                  : Alignment.centerLeft,
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            margin: const EdgeInsets.symmetric(vertical: 4),
+            decoration: BoxDecoration(
+              color:
+                  message.startsWith("You:")
+                      ? Colors.blue[100]
+                      : Colors.grey[200],
+              borderRadius: BorderRadius.circular(12),
             ),
-          );
-        },
-      ),
+            child: Text(message),
+          ),
+        );
+      },
     );
   }
 
@@ -100,45 +93,47 @@ class _ChatBotPageState extends State<ChatBotPage> {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: Column(
-        children: [
-          const SizedBox(height: 16),
+      body: SafeArea(
+        child: Column(
+          children: [
+            const SizedBox(height: 16),
 
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: _showChat ? _buildChatView() : _buildInitialContent(),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: _showChat ? _buildChatView() : _buildInitialContent(),
+              ),
             ),
-          ),
 
-          Padding(
-            padding: const EdgeInsets.fromLTRB(18, 14, 18, 28),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _controller,
-                    decoration: InputDecoration(
-                      hintText: "Ask your travel assistant...",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 12,
+            Padding(
+              padding: const EdgeInsets.fromLTRB(18, 14, 18, 28),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _controller,
+                      decoration: InputDecoration(
+                        hintText: "Ask your travel assistant...",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(width: 8),
-                IconButton(
-                  icon: const Icon(Icons.send, color: Colors.blue),
-                  onPressed: _sendMessage,
-                ),
-              ],
+                  const SizedBox(width: 8),
+                  IconButton(
+                    icon: const Icon(Icons.send, color: Colors.blue),
+                    onPressed: _sendMessage,
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
