@@ -14,6 +14,6 @@ A Flutter project.
     git clone https://github.com/Hasan7e/TravelBuddy
 
 ### Configure environment
-1.**update .env file in project root with API keys
-2.**run the app using your chosen simulator
+1.**update .env file in project root with API keys**
+2.**run the app using your chosen simulator**
 
