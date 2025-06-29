@@ -4,11 +4,18 @@ import 'package:travelbuddy/pages/chatbot.dart';
 import 'package:travelbuddy/pages/eiffel_tower.dart';
 import 'package:travelbuddy/pages/flight_booking.dart';
 import 'package:travelbuddy/pages/great_wall.dart';
+import 'package:travelbuddy/pages/login_page.dart';
 import 'package:travelbuddy/pages/rome.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart'; //import for apikey
+import 'package:firebase_core/firebase_core.dart'; // now
+import 'firebase_options.dart'; // now
+import 'package:firebase_auth/firebase_auth.dart'; //now 2
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized(); // important!
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  ); // now added
   await dotenv.load(fileName: ".env"); // loading environment variables
   runApp(TravelBuddyApp());
 }
@@ -37,55 +44,126 @@ class TravelBuddyApp extends StatelessWidget {
 
         '/flight-booking':
             (context) => FlightBookingPage(), // route to booking page
+
+        '/login': (context) => LoginPage(), // route to booking page
       },
     );
   }
 }
 
-class HomeScreen extends StatelessWidget {
+// Home Screen with AppBar
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  User? user;
+
+  @override
+  void initState() {
+    super.initState();
+    user = FirebaseAuth.instance.currentUser;
+
+    // Listen for login/logout changes
+    FirebaseAuth.instance.authStateChanges().listen((User? updatedUser) {
+      setState(() {
+        user = updatedUser;
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final username = user?.email?.split('@')[0];
+
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text(
-          "TravelBuddy",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        leading: Center(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 12.0),
-            child: Text("Home", style: TextStyle(fontSize: 16)),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(100),
+        child: AppBar(
+          backgroundColor: Colors.deepPurple,
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text(
+                "TravelBuddy",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  color: Colors.white,
+                ),
+              ),
+              if (user != null && username != null)
+                Text(
+                  "Logged in as $username",
+                  style: const TextStyle(fontSize: 13, color: Colors.white70),
+                ),
+            ],
           ),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.person),
-            onPressed: () {
-              Navigator.pushNamed(context, '/profile');
-            },
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildSearchBar(context),
-            _buildHorizontalOptions(),
-            const Padding(
-              padding: EdgeInsets.all(16.0),
+          centerTitle: true,
+          leading: Padding(
+            padding: const EdgeInsets.only(left: 16.0),
+            child: Center(
               child: Text(
-                "Top Destinations",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                "Home",
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: Colors.white70,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-            _buildFeaturedPlaces(context),
-            //_buildAIChat(),
+          ),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.person, color: Colors.white),
+              onPressed: () {
+                Navigator.pushNamed(context, '/login');
+              },
+            ),
           ],
         ),
+      ),
+
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildSearchBar(context),
+                  _buildHorizontalOptions(),
+                  const Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Text(
+                      "Top Destinations",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  _buildFeaturedPlaces(context),
+                ],
+              ),
+            ),
+          ),
+          if (user != null)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16.0),
+              child: ElevatedButton.icon(
+                onPressed: () async {
+                  await FirebaseAuth.instance.signOut();
+                  Navigator.pushReplacementNamed(context, '/login');
+                },
+                icon: const Icon(Icons.logout),
+                label: const Text("Logout"),
+              ),
+            ),
+        ],
       ),
     );
   }
@@ -279,5 +357,3 @@ Widget _buildFeaturedPlaces(BuildContext context) {
     ),
   );
 }
-
-//AI chat bot integration

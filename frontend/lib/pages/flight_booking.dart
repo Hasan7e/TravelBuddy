@@ -27,7 +27,9 @@ class _FlightBookingPageState extends State<FlightBookingPage> {
   ];
 
   Future<void> submitBooking() async {
-    final url = Uri.parse('http://localhost:3000/api/bookings');
+    final url = Uri.parse(
+      'http://localhost:3000/api/bookings',
+    ); // for IOS= http://localhost:3000/api/bookings  //for android= http:http://10.0.2.2:3000/api/bookings
 
     try {
       final response = await http.post(
