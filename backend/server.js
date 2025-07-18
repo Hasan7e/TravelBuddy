@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bookingsRoute = require('./routes/bookings');
+const hotelBookingRoutes = require('./routes/HotelBookings');
 
 
 
@@ -20,7 +21,8 @@ mongoose.connect(process.env.MONGODB_URI, {
 .catch((err) => console.error('MongoDB connection error:', err));
 
 // 👇 Add this route
-app.use('/api/bookings', bookingsRoute);
+app.use('/api/bookings', bookingsRoute); //  Flight bookings routes
+app.use('/api/hotel-bookings', hotelBookingRoutes); // Hotel bookings routes
 
 const PORT = 3000;
 app.listen(PORT, () => {

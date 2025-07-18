@@ -70,6 +70,39 @@ class RomePage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 40),
+            // ✅ Added Buttons for Booking
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/flight-booking');
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 12,
+                    ),
+                    backgroundColor: const Color.fromARGB(255, 189, 151, 228),
+                  ),
+                  child: const Text("Book Flight"),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/hotel-booking');
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 12,
+                    ),
+                    backgroundColor: Colors.green,
+                  ),
+                  child: const Text("Book Hotel"),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20), // Space after buttons
           ],
         ),
       ),

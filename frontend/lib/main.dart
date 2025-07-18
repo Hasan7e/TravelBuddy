@@ -4,6 +4,7 @@ import 'package:travelbuddy/pages/chatbot.dart';
 import 'package:travelbuddy/pages/eiffel_tower.dart';
 import 'package:travelbuddy/pages/flight_booking.dart';
 import 'package:travelbuddy/pages/great_wall.dart';
+import 'package:travelbuddy/pages/hotel_booking.dart';
 import 'package:travelbuddy/pages/login_page.dart';
 import 'package:travelbuddy/pages/rome.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart'; //import for apikey
@@ -43,9 +44,12 @@ class TravelBuddyApp extends StatelessWidget {
         '/wall': (context) => const GreatWallPage(), // route to wall page
 
         '/flight-booking':
-            (context) => FlightBookingPage(), // route to booking page
+            (context) => FlightBookingPage(), // route to flight booking page
 
-        '/login': (context) => LoginPage(), // route to booking page
+        '/login': (context) => LoginPage(), // route to login page
+
+        '/hotel-booking':
+            (context) => HotelBookingPage(), // route to Hotel booking page
       },
     );
   }
@@ -171,6 +175,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
 // searchbar with AI chatbot icon beside it
 Widget _buildSearchBar(BuildContext context) {
+  final destinations = ['Eiffel Tower', 'Barcelona', 'Rome', 'Great Wall'];
+  String? selectedDestination;
+
   return Padding(
     padding: const EdgeInsets.all(16.0),
     child: Column(
@@ -186,8 +193,6 @@ Widget _buildSearchBar(BuildContext context) {
             ),
             GestureDetector(
               onTap: () {
-                // we can trigger chatbot functionality or navigation here
-                print("AI Chatbot tapped");
                 Navigator.pushNamed(
                   context,
                   '/chatbot',
@@ -219,12 +224,39 @@ Widget _buildSearchBar(BuildContext context) {
           ],
         ),
         const SizedBox(height: 8),
-        TextField(
+
+        // ✅ Dropdown for Destinations
+        DropdownButtonFormField<String>(
           decoration: InputDecoration(
-            hintText: "Where to?",
             prefixIcon: const Icon(Icons.search),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 10,
+              vertical: 12,
+            ),
           ),
+          hint: const Text("Where to?"),
+          items:
+              destinations.map((destination) {
+                return DropdownMenuItem<String>(
+                  value: destination,
+                  child: Text(destination),
+                );
+              }).toList(),
+          onChanged: (value) {
+            selectedDestination = value;
+
+            // Navigate to the selected destination page
+            if (value == 'Eiffel Tower') {
+              Navigator.pushNamed(context, '/eiffel');
+            } else if (value == 'Barcelona') {
+              Navigator.pushNamed(context, '/barcelona');
+            } else if (value == 'Rome') {
+              Navigator.pushNamed(context, '/rome');
+            } else if (value == 'Great Wall') {
+              Navigator.pushNamed(context, '/wall');
+            }
+          },
         ),
       ],
     ),
@@ -256,6 +288,11 @@ Widget _buildHorizontalOptions() {
                   context,
                   '/flight-booking',
                 ); //  Navigate to booking
+              } else if (options[index] == 'Hotel') {
+                Navigator.pushNamed(
+                  context,
+                  '/hotel-booking',
+                ); // Navigate to hotel booking
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
