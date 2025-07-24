@@ -19,11 +19,11 @@ class _FlightBookingPageState extends State<FlightBookingPage> {
 
   final List<String> airports = [
     'Dublin Airport (DUB)',
-    'Heathrow Airport (LHR)',
+    'Rome Airport (RA)',
     'Barcelona El Prat (BCN)',
-    'Charles de Gaulle (CDG)',
+    'Paris Airport (PA)',
     'Changi Airport (SIN)',
-    'JFK International (JFK)',
+    'Beijing Internationl Airport (BIA)',
   ];
 
   Future<void> submitBooking() async {
@@ -93,7 +93,7 @@ class _FlightBookingPageState extends State<FlightBookingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Flight Booking')),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
