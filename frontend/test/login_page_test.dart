@@ -28,11 +28,11 @@ void main() {
     // Enter valid email & password
     await tester.enterText(
       find.widgetWithText(TextFormField, 'Email'),
-      'test@example.com',
+      'john@gmail.com',
     );
     await tester.enterText(
       find.widgetWithText(TextFormField, 'Password'),
-      'password123',
+      'Abcd12345',
     );
 
     // Tap login button

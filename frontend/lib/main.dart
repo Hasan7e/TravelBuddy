@@ -113,7 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Text(
                 "Home",
                 style: const TextStyle(
-                  fontSize: 14,
+                  fontSize: 12,
                   color: Colors.white70,
                   fontWeight: FontWeight.bold,
                 ),
