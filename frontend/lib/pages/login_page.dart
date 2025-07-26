@@ -117,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
                         child: const Text("Register"),
                       ),
                       TextButton(
-                        onPressed: () => Navigator.pop(context),
+                        onPressed: () => Navigator.pop(context, '/home'),
                         child: const Text("Skip"),
                       ),
                     ],

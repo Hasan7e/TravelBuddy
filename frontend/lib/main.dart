@@ -8,9 +8,9 @@ import 'package:travelbuddy/pages/hotel_booking.dart';
 import 'package:travelbuddy/pages/login_page.dart';
 import 'package:travelbuddy/pages/rome.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart'; //import for apikey
-import 'package:firebase_core/firebase_core.dart'; // now
-import 'firebase_options.dart'; // now
-import 'package:firebase_auth/firebase_auth.dart'; //now 2
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized(); // important!
